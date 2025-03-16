@@ -19,23 +19,37 @@
     
     <!-- header and nav bar -->
     <header class="w-9/12 mx-auto">
-        <!-- navigation part -->
-        <nav class="py-6 flex items-center justify-between">
-            <div class="flex gap-3 items-center">
-                <img src="images/logo.webp" alt="">
-                <h2 class="text-3xl font-black">Peddy</h2>
-            </div>
-            <div>
-                <ul class="flex flex-col lg:flex-row gap-8 items-center">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Shop</a></li>
-                    <li><a href="#">Contact</a></li>
+        <div class="navbar">
+            <div class="navbar-start">
+              <div class="dropdown">
+                <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /> </svg>
+                </div>
+                <ul
+                  tabindex="0"
+                  class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+                    <li><a>Home</a></li>
+                    <li><a>Shop</a></li>
+                    <li><a>Contact</a></li>
                 </ul>
+              </div>
+                <div>
+                    <a class="btn btn-ghost text-xl"><img class="pr-2" src="images/logo.webp" alt=""> Peddy</a>
+                </div>
             </div>
-            <div>
-                <img class="w-12" src="https://img.icons8.com/?size=100&id=JOzPdFXJKESy&format=png&color=000000" alt="">
+            <div class="navbar-center hidden lg:flex">
+              <ul class="menu menu-horizontal px-1 text-lg text-gray-600">
+                <li><a>Home</a></li>
+                <li><a>Shop</a></li>
+                <li><a>Contact</a></li>
+              </ul>
             </div>
-        </nav>
+            <div class="navbar-end">
+                <div>
+                    <img class="w-12" src="https://img.icons8.com/?size=100&id=JOzPdFXJKESy&format=png&color=000000" alt="">
+                </div>
+            </div>
+          </div>
 
         <!-- header part-->
         <section class="">
@@ -114,6 +128,25 @@
           <a class="link link-hover">Cookie policy</a>
         </nav>
     </footer>
+
+
+
+    <!-- modal -->
+    <!-- Open the modal using ID.showModal() method -->
+<button id="showModal" class="btn hidden" onclick="custoModal.showModal()">open modal</button>
+<dialog id="customModal" class="modal">
+  <div class="modal-box">
+    <div id="modal-container" class=""> 
+
+    </div>
+    <div class="">
+      <form method="dialog">
+        <!-- if there is a button in form, it will close the modal -->
+        <button class="btn w-full text-[#0E7A81] font-bold text-lg bg-gray-200 mt-2 rounded-lg">Cancel</button>
+      </form>
+    </div>
+  </div>
+</dialog>
     <!-- JavaScript files -->
     <script src="scripts/pet.js"></script>
 </body>

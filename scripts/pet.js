@@ -20,7 +20,7 @@ const displayCategories = (categories) => {
         // console.log(item);
         const div = document.createElement("div");
         div.innerHTML = `
-            <button onclick="loadCategoryWise('${item.category}')" class="btn bg-white font-bold text-2xl p-6 w-full h-auto rounded-xl"> 
+            <button onclick="loadCategoryWise('${item.category}')" class="btn bg-white font-bold text-2xl p-6 w-full h-auto rounded-xl loadingSpinner"> 
                 <img class="pr-4" src=${item.category_icon}/>
                     ${item.category}s
             </button>
@@ -76,8 +76,8 @@ const displayAllPets = (pets) => {
                 </div>
                 <div class="border-t border-gray-300 pt-4 flex flex-wrap flex-col gap-2 lg:flex-row justify-between">
                     <button onclick = "loadPetsById(${pet.petId})" class="btn w-auto rounded-lg  lg:text-lg font-bold text-[#0E7A81]"><img class="w-5" src="https://img.icons8.com/?size=100&id=24816&format=png&color=000000"/></button>
-                    <button class="btn w-auto rounded-lg text-lg font-bold text-[#0E7A81]">Adopt</button>
-                    <button class="btn w-auto rounded-lg text-lg font-bold text-[#0E7A81]">Details</button>
+                    <button onclick="displayAdopt()" class="btn w-auto rounded-lg text-lg font-bold text-[#0E7A81]">Adopt</button>
+                    <button onclick="loadDetails(${pet.petId})" class="btn w-auto rounded-lg text-lg font-bold text-[#0E7A81]">Details</button>
                 </div>
             </div>
         `;
@@ -107,6 +107,40 @@ const displayLikedPets = (likedPets) => {
     `
     likedPetsContainer.append(likedImg);
 }
+// modal section
+const loadDetails = async (petId) => {
+    const url = `https://openapi.programming-hero.com/api/peddy/pet/${petId}`;
+    const response = await fetch(url);
+    const data = await response.json();
+    displayModal(data.petData);
+}
+// display modal data
+const displayModal = (petDetails) => {
+    console.log(petDetails);
+    const modalDetailsContainer = document.getElementById("modal-container");
+    modalDetailsContainer.innerHTML = "";
+    const modalDetails = document.createElement("div");
+
+    modalDetails.innerHTML = `
+        <img class="rounded-md w-full h-full" src="${petDetails.image}"/>
+        <h2 class="font-bold text-xl my-3">${petDetails.pet_name}</h2>
+        <div class="grid grid-cols-2 border-b pb-4">
+            <p class="">Breed: ${petDetails.breed}</p>
+            <p class="">Date of Birth: ${petDetails.date_of_birth}</p>
+            <p class="">Gender: ${petDetails.gender}</p>
+            <p class="">Price: ${petDetails.price}$</p>
+            <p class="">Vaccinated Status: ${petDetails.vaccinated_status}</p>
+        </div>
+        <div class="">
+            <h2 class="font-bold text-xl my-3">Details Information</h2>
+            <p class="">${petDetails.pet_details}</p>
+        </div>
+    `;
+    document.getElementById("customModal").showModal();
+    modalDetailsContainer.append(modalDetails);
+}
+
+// adopt button
 
 // extra
 document.getElementById("viewMoreButton").addEventListener("click", function(){
