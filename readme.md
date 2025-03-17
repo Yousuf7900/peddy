@@ -18,4 +18,4 @@ ES6 feature used:
 4. const/let
 5.for...of loop
 
-live link: 
+live link: https://peddyassignment.netlify.app/
