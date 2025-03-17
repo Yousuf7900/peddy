@@ -19,3 +19,4 @@ ES6 feature used:
 5.for...of loop
 
 live link: https://peddyassignment.netlify.app/
+github live link: https://yousuf7900.github.io/peddy/
