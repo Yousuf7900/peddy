@@ -37,6 +37,8 @@ const loadAllPets = () => {
         .then(data => displayAllPets(data.pets))
         .catch(error => console.log(error))
 }
+
+
 // displaying all the pets
 const displayAllPets = (pets) => {
     const allPetsCardsContainer = document.getElementById("allPetsCardsContainer");
@@ -70,7 +72,7 @@ const displayAllPets = (pets) => {
                 <h2 class="font-bold text-xl my-3">${pet.pet_name}</h2>
                 <div class="text-gray-600 space-y-1">
                     <p >Breed: ${pet.breed}</p>
-                    <p>Birth: ${pet.date_of_birth}</p>
+                    <p>Birth: ${pet.date_of_birth? pet.date_of_birth.split("-")[0] : "Not Provided"}</p>
                     <p>Gender: ${pet.gender}</p>
                     <p class="pb-2">Price: ${pet.price}$</p>
                 </div>
@@ -120,13 +122,12 @@ const displayModal = (petDetails) => {
     const modalDetailsContainer = document.getElementById("modal-container");
     modalDetailsContainer.innerHTML = "";
     const modalDetails = document.createElement("div");
-
     modalDetails.innerHTML = `
         <img class="rounded-md w-full h-full" src="${petDetails.image}"/>
         <h2 class="font-bold text-xl my-3">${petDetails.pet_name}</h2>
         <div class="grid grid-cols-2 border-b pb-4">
             <p class="">Breed: ${petDetails.breed}</p>
-            <p class="">Date of Birth: ${petDetails.date_of_birth}</p>
+            <p class="">Date of Birth: ${petDetails.date_of_birth? petDetails.date_of_birth.split("-")[0] : "Not Provided"}</p>
             <p class="">Gender: ${petDetails.gender}</p>
             <p class="">Price: ${petDetails.price}$</p>
             <p class="">Vaccinated Status: ${petDetails.vaccinated_status}</p>
