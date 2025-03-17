@@ -73,12 +73,14 @@ const displayAllPets = (pets) => {
                 <div class="text-gray-600 space-y-1">
                     <p >Breed: ${pet.breed}</p>
                     <p>Birth: ${pet.date_of_birth? pet.date_of_birth.split("-")[0] : "Not Provided"}</p>
-                    <p>Gender: ${pet.gender}</p>
-                    <p class="pb-2">Price: ${pet.price}$</p>
+                    <p>Gender: ${pet.gender? pet.gender : "Not Available"}</p>
+                    <p class="pb-2">Price: ${pet.price? `${pet.price}$` : "Not Available"}</p>
                 </div>
                 <div class="border-t border-gray-300 pt-4 flex flex-wrap flex-col gap-2 lg:flex-row justify-between">
                     <button onclick = "loadPetsById(${pet.petId})" class="btn w-auto rounded-lg  lg:text-lg font-bold text-[#0E7A81]"><img class="w-5" src="https://img.icons8.com/?size=100&id=24816&format=png&color=000000"/></button>
-                    <button onclick="adoptDetails(${pet.petId})" class="btn w-auto rounded-lg text-lg font-bold text-[#0E7A81]">Adopt</button>
+
+                    <button id="adoptButton" onclick="adoptDetails(${pet.petId}); disableButton(this)" class="btn w-auto rounded-lg text-lg font-bold text-[#0E7A81]">Adopt</button>
+
                     <button onclick="loadDetails(${pet.petId})" class="btn w-auto rounded-lg text-lg font-bold text-[#0E7A81]">Details</button>
                 </div>
             </div>
@@ -87,7 +89,15 @@ const displayAllPets = (pets) => {
         allPetsCardsContainer.append(card);
     })
 }
-
+// disabled button handle
+const disableButton = (button) =>{
+    setTimeout(() => {
+        button.disabled = true;
+        button.classList = "w-auto rounded-lg text-lg font-bold text-gray-300 border border-gray-300 px-1";
+        button.innerText = "Adopted"
+    }, 3000);
+    // const adoptButton = document.getElementById("adoptButton");
+}
 // fetch pets by id
 const loadPetsById = (id) => {
     const url = `https://openapi.programming-hero.com/api/peddy/pet/${id}`;
@@ -114,6 +124,7 @@ const loadDetails = async (petId) => {
     const url = `https://openapi.programming-hero.com/api/peddy/pet/${petId}`;
     const response = await fetch(url);
     const data = await response.json();
+    console.log(data);
     displayModal(data.petData);
 }
 // display modal data
@@ -134,8 +145,8 @@ const displayModal = (petDetails) => {
         <div class="grid grid-cols-2 border-b pb-4">
             <p class="">Breed: ${petDetails.breed}</p>
             <p class="">Date of Birth: ${petDetails.date_of_birth? petDetails.date_of_birth.split("-")[0] : "Not Provided"}</p>
-            <p class="">Gender: ${petDetails.gender}</p>
-            <p class="">Price: ${petDetails.price}$</p>
+            <p class="">Gender: ${petDetails.gender? petDetails.gender : "Not Available"}</p>
+            <p class="">Price: ${petDetails.price? `${petDetails.price}$` : "Not Available"}</p>
             <p class="">Vaccinated Status: ${petDetails.vaccinated_status}</p>
         </div>
         <div class="">
@@ -147,6 +158,10 @@ const displayModal = (petDetails) => {
     modalDetailsContainer.append(modalDetails);
 }
 
+
+// sorting by price
+
+
 // adopt button
 const adoptDetails = async (petId) => {
     // console.log(petId);
@@ -156,8 +171,6 @@ const adoptDetails = async (petId) => {
     displayDetails(data.petData);
 }
 // display adopt details
-
-
 const displayDetails = async (petData) => {
     const modalContainer = document.getElementById("modal-container");
     modalContainer.innerHTML = "";
@@ -175,7 +188,6 @@ const displayDetails = async (petData) => {
 
     modalContainer.append(modalInfo);
     document.getElementById("customModal").showModal();
-
     // Start Countdown Timer
     let countdown = 3;
     const countdownElement = document.getElementById("countdown");
@@ -187,6 +199,7 @@ const displayDetails = async (petData) => {
         if (countdown === 0) {
             clearInterval(countdownInterval);
             document.getElementById("customModal").close();
+            
         }
     }, 1000);
 };
