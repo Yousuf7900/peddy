@@ -27,6 +27,10 @@ const loadCategoryWise = (category) =>{
         })
         .catch(error => console.log(error))
 }
+
+
+
+
 // displaying all the categories
 const displayCategories = (categories) => {
     const petCategoryContainer = document.getElementById("petsCategoryContainer");
@@ -51,6 +55,7 @@ const loadAllPets = () => {
         .then(data => displayAllPets(data.pets))
         .catch(error => console.log(error))
 }
+
 
 
 // displaying all the pets
@@ -85,7 +90,7 @@ const displayAllPets = (pets) => {
                 <img class="h-48 w-80 object-cover rounded-lg" src=${pet.image}/>
                 <h2 class="font-bold text-xl my-3">${pet.pet_name}</h2>
                 <div class="text-gray-600 space-y-1">
-                    <p >Breed: ${pet.breed}</p>
+                    <p >Breed: ${pet.breed? pet.breed : "Not Provided"}</p>
                     <p>Birth: ${pet.date_of_birth? pet.date_of_birth.split("-")[0] : "Not Provided"}</p>
                     <p>Gender: ${pet.gender? pet.gender : "Not Available"}</p>
                     <p class="pb-2">Price: ${pet.price? `${pet.price}$` : "Not Available"}</p>
@@ -103,6 +108,8 @@ const displayAllPets = (pets) => {
         allPetsCardsContainer.append(card);
     })
 }
+
+
 // disabled button handle
 const disableButton = (button) =>{
     setTimeout(() => {
@@ -157,7 +164,7 @@ const displayModal = (petDetails) => {
         <img class="rounded-md w-full h-full" src="${petDetails.image}"/>
         <h2 class="font-bold text-xl my-3">${petDetails.pet_name}</h2>
         <div class="grid grid-cols-2 border-b pb-4">
-            <p class="">Breed: ${petDetails.breed}</p>
+            <p class="">Breed: ${petDetails.breed? petDetails.breed : "Not Provided"}</p>
             <p class="">Date of Birth: ${petDetails.date_of_birth? petDetails.date_of_birth.split("-")[0] : "Not Provided"}</p>
             <p class="">Gender: ${petDetails.gender? petDetails.gender : "Not Available"}</p>
             <p class="">Price: ${petDetails.price? `${petDetails.price}$` : "Not Available"}</p>
@@ -173,7 +180,10 @@ const displayModal = (petDetails) => {
 }
 
 
-// sorting by price
+// loading function
+const loadCategory = () => {
+    document.getElementById("")
+}
 
 
 // adopt button
@@ -202,7 +212,6 @@ const displayDetails = async (petData) => {
 
     modalContainer.append(modalInfo);
     document.getElementById("customModal").showModal();
-    // Start Countdown Timer
     let countdown = 3;
     const countdownElement = document.getElementById("countdown");
 
