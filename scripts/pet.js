@@ -1,3 +1,4 @@
+
 // fetching all the pet categories
 const petCategories = () => {
     const url = "https://openapi.programming-hero.com/api/peddy/categories";
@@ -6,21 +7,34 @@ const petCategories = () => {
         .then(data => displayCategories(data.categories))
         .catch(error => console.log(error));
 }
+const removeActiveClass = () => {
+    const buttons = document.getElementsByClassName("category-btn");
+    console.log(buttons);
+    for (let btn of buttons){
+        btn.classList.remove("active");
+    }
+}
 // category wise pet select
 const loadCategoryWise = (category) =>{
+    // console.log(category);
     fetch(`https://openapi.programming-hero.com/api/peddy/category/${category}`)
         .then(response => response.json())
-        .then(data => displayAllPets(data.data))
+        .then(data => {
+            removeActiveClass();
+            const active = document.getElementById(`btn-${category}`);
+            active.classList.add("active");
+            displayAllPets(data.data)
+        })
         .catch(error => console.log(error))
 }
 // displaying all the categories
 const displayCategories = (categories) => {
     const petCategoryContainer = document.getElementById("petsCategoryContainer");
     categories.forEach(item =>{
-        // console.log(item);
+        // console.log(item.id);
         const div = document.createElement("div");
         div.innerHTML = `
-            <button onclick="loadCategoryWise('${item.category}')" class="btn bg-white font-bold text-2xl p-6 w-full h-auto rounded-xl loadingSpinner"> 
+            <button id="btn-${item.category}" onclick="loadCategoryWise('${item.category}')" class="btn bg-white font-bold text-2xl p-6 w-full h-auto rounded-xl category-btn"> 
                 <img class="pr-4" src=${item.category_icon}/>
                     ${item.category}s
             </button>
@@ -93,7 +107,7 @@ const displayAllPets = (pets) => {
 const disableButton = (button) =>{
     setTimeout(() => {
         button.disabled = true;
-        button.classList = "w-auto rounded-lg text-lg font-bold text-gray-300 border border-gray-300 px-1";
+        button.classList = "w-auto rounded-lg text-lg font-bold text-gray-300 border border-gray-300 p-1";
         button.innerText = "Adopted"
     }, 3000);
     // const adoptButton = document.getElementById("adoptButton");

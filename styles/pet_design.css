@@ -1,3 +1,9 @@
 *{
     font-family: "Lato", sans-serif;
 }
+
+.active {
+    background-color: springgreen;
+    color: white;
+    border-radius: 25px;
+}
