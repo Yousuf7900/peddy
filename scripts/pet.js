@@ -78,7 +78,7 @@ const displayAllPets = (pets) => {
                 </div>
                 <div class="border-t border-gray-300 pt-4 flex flex-wrap flex-col gap-2 lg:flex-row justify-between">
                     <button onclick = "loadPetsById(${pet.petId})" class="btn w-auto rounded-lg  lg:text-lg font-bold text-[#0E7A81]"><img class="w-5" src="https://img.icons8.com/?size=100&id=24816&format=png&color=000000"/></button>
-                    <button onclick="displayAdopt()" class="btn w-auto rounded-lg text-lg font-bold text-[#0E7A81]">Adopt</button>
+                    <button onclick="adoptDetails(${pet.petId})" class="btn w-auto rounded-lg text-lg font-bold text-[#0E7A81]">Adopt</button>
                     <button onclick="loadDetails(${pet.petId})" class="btn w-auto rounded-lg text-lg font-bold text-[#0E7A81]">Details</button>
                 </div>
             </div>
@@ -121,6 +121,12 @@ const displayModal = (petDetails) => {
     console.log(petDetails);
     const modalDetailsContainer = document.getElementById("modal-container");
     modalDetailsContainer.innerHTML = "";
+    const modalCancelButton = document.getElementById("modalCancelButton");
+    modalCancelButton.innerHTML = `
+        <form method="dialog">
+            <button class="btn w-full text-[#0E7A81] font-bold text-lg bg-gray-200 mt-2 rounded-lg">Cancel</button>
+        </form>
+    `
     const modalDetails = document.createElement("div");
     modalDetails.innerHTML = `
         <img class="rounded-md w-full h-full" src="${petDetails.image}"/>
@@ -142,6 +148,50 @@ const displayModal = (petDetails) => {
 }
 
 // adopt button
+const adoptDetails = async (petId) => {
+    // console.log(petId);
+    const url = `https://openapi.programming-hero.com/api/peddy/pet/${petId}`;
+    const response = await fetch(url);
+    const data = await response.json();
+    displayDetails(data.petData);
+}
+// display adopt details
+
+
+const displayDetails = async (petData) => {
+    const modalContainer = document.getElementById("modal-container");
+    modalContainer.innerHTML = "";
+    const buttonDiv = document.getElementById("modalCancelButton");
+    buttonDiv.innerHTML = "";
+    const modalInfo = document.createElement("div");
+    modalInfo.innerHTML = `
+        <div class="text-center">
+            <img class="mx-auto" src="https://img.icons8.com/?size=100&id=QbkKkhTzznzA&format=png&color=000000" alt="Pet Image" />
+            <h2 class="font-black text-3xl py-3 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">Congratulations!</h2>
+            <p class="text-gray-400">Your selected pet: <span class="font-bold text-l text-violet-600">${petData.pet_name}'s </span> adoption process starts in...</p>
+            <h3 class="font-bold text-5xl text-sky-500"><span id="countdown">3</span></h3>
+        </div>
+    `;
+
+    modalContainer.append(modalInfo);
+    document.getElementById("customModal").showModal();
+
+    // Start Countdown Timer
+    let countdown = 3;
+    const countdownElement = document.getElementById("countdown");
+
+    const countdownInterval = setInterval(() => {
+        countdown--;
+        countdownElement.innerText = countdown;
+
+        if (countdown === 0) {
+            clearInterval(countdownInterval);
+            document.getElementById("customModal").close();
+        }
+    }, 1000);
+};
+
+
 
 // extra
 document.getElementById("viewMoreButton").addEventListener("click", function(){
@@ -151,5 +201,4 @@ document.getElementById("viewMoreButton").addEventListener("click", function(){
 // calling the functions
 petCategories();
 loadAllPets();
-
 loadPetsById();
